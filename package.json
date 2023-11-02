@@ -1,0 +1,19 @@
+{
+  "name": "bun-run",
+  "module": "index.tsx",
+  "type": "module",
+  "devDependencies": {
+    "@types/figlet": "^1.5.6",
+    "bun-types": "^1.0.6"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/uuid": "^9.0.6",
+    "axios": "^1.6.0",
+    "figlet": "^1.6.0",
+    "mysql2": "^3.6.2",
+    "uuid": "^9.0.1"
+  }
+}
