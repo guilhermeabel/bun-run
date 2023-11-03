@@ -1,14 +1,20 @@
-import { createConnection } from "mysql2/promise";
-import { Freight, Input, Order, ProductModel, Taxes } from "./types";
-import axios from "axios";
+import { Input, Order } from "./types";
+import ProductRepository from "../infra/repository/ProductRepository";
+import TaxesGatewayHttp from "./TaxesGateway";
+import FreightGatewayHttp from "./FreightGateway";
 
 export default class CalculateCheckout {
 
-	async execute(input: Input): Promise<Order> {
-		const { data: freight } = await axios.get<Freight[]>("http://localhost:4000/freight");
+	constructor(
+		private productRepository: ProductRepository,
+		private taxesGateway: TaxesGatewayHttp,
+		private freightGateway: FreightGatewayHttp
+	) { }
 
-		const taxInformation = taxes.find(tax => tax.country === input.country) || { percentage: 0 };
-		const freightInformation = freight.find(freight => freight.country === input.country) || { serviceFee: 0 };
+	async execute(input: Input): Promise<Order> {
+		const taxInformation = await this.taxesGateway.getTaxesInformation(input.country);
+
+		const freightInformation = await this.freightGateway.getFreightInformation(input.country);
 
 		let subtotal = 0;
 

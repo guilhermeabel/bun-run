@@ -7,7 +7,7 @@ export type Input = {
 };
 export type CheckoutProduct = {
 	id: number;
-	name: string;
+	name?: string;
 	quantity: number;
 }
 export type Order = {
@@ -27,9 +27,9 @@ export type Freight = {
 	serviceFee: number;
 }
 
-type Countries = "BR" | "US" | "UK" | "AR";
+export type Countries = "BR" | "US" | "UK" | "AR";
 
-export interface ProductModel extends RowDataPacket {
+export interface ProductModel {
 	id: number;
 	name: string;
 	price: number;
