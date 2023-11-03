@@ -1,30 +1,26 @@
-import { createConnection } from "mysql2/promise";
-import { Freight, Input, Order, ProductModel, Taxes } from "./types";
-import axios from "axios";
+import { Input, Order } from "./types";
+import ProductRepository from "../infra/repository/ProductRepository";
+import TaxesGatewayHttp from "./TaxesGateway";
+import FreightGatewayHttp from "./FreightGateway";
 
 export default class CalculateCheckout {
 
+	constructor(
+		private productRepository: ProductRepository,
+		private taxesGateway: TaxesGatewayHttp,
+		private freightGateway: FreightGatewayHttp
+	) { }
+
 	async execute(input: Input): Promise<Order> {
+		const taxInformation = await this.taxesGateway.getTaxesInformation(input.country);
 
-		const connection = await createConnection({
-			host: "localhost",
-			port: 3306,
-			user: "root",
-			database: "test",
-			password: "abel"
-		});
-
-		const { data: freight } = await axios.get<Freight[]>("http://localhost:4000/freight");
-		const { data: taxes } = await axios.get<Taxes[]>("http://localhost:4000/taxes");
-
-		const taxInformation = taxes.find(tax => tax.country === input.country) || { percentage: 0 };
-		const freightInformation = freight.find(freight => freight.country === input.country) || { serviceFee: 0 };
+		const freightInformation = await this.freightGateway.getFreightInformation(input.country);
 
 		let subtotal = 0;
 
 		for (const item of input.items) {
-			const [product] = await connection.execute<ProductModel[]>("SELECT * FROM products WHERE id = ? LIMIT 1", [item.id]);
-			subtotal += Number(product[0].price) * item.quantity;
+			const product = await this.productRepository.find(item.id);
+			subtotal += Number(product.price) * item.quantity;
 		}
 
 		const tax = subtotal * (taxInformation.percentage) / 100;
