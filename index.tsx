@@ -2,8 +2,8 @@ import figlet from "figlet";
 import CalculateCheckout from "./src/checkout/CalculateCheckout";
 import { OrderRepository } from "./src/infra/repository/OrderRepository";
 import ProductRepository from "./src/infra/repository/ProductRepository";
-import TaxesGatewayHttp from "./src/checkout/TaxesGateway";
-import FreightGatewayHttp from "./src/checkout/FreightGateway";
+import {TaxesGatewayHttp} from "./src/checkout/TaxesGateway";
+import {FreightGatewayHttp} from "./src/checkout/FreightGateway";
 
 const server = Bun.serve({
   fetch() {

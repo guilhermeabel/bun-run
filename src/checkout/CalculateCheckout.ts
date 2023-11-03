@@ -1,14 +1,14 @@
 import { Input, Order } from "./types";
 import ProductRepository from "../infra/repository/ProductRepository";
-import TaxesGatewayHttp from "./TaxesGateway";
-import FreightGatewayHttp from "./FreightGateway";
+import TaxesGateway from "./TaxesGateway";
+import FreightGateway from "./FreightGateway";
 
 export default class CalculateCheckout {
 
 	constructor(
 		private productRepository: ProductRepository,
-		private taxesGateway: TaxesGatewayHttp,
-		private freightGateway: FreightGatewayHttp
+		private taxesGateway: TaxesGateway,
+		private freightGateway: FreightGateway
 	) { }
 
 	async execute(input: Input): Promise<Order> {

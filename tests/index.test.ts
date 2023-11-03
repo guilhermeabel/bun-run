@@ -1,8 +1,8 @@
 import { expect, test } from "bun:test";
 import CalculateCheckout from "../src/checkout/CalculateCheckout";
 import ProductRepository from "../src/infra/repository/ProductRepository";
-import TaxesGatewayHttp from "../src/checkout/TaxesGateway";
-import FreightGatewayHttp from "../src/checkout/FreightGateway";
+import { TaxesGatewayHttp } from "../src/checkout/TaxesGateway";
+import { FreightGatewayHttp } from "../src/checkout/FreightGateway";
 
 test("Should calculate order based on checkout input", async () => {
 
