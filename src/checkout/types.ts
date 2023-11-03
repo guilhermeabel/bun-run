@@ -7,7 +7,7 @@ export type Input = {
 };
 export type CheckoutProduct = {
 	id: number;
-	name: string;
+	name?: string;
 	quantity: number;
 }
 export type Order = {
